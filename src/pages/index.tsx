@@ -14,11 +14,11 @@ interface HomeProps {
     name: string
     imageUrl: string
     price: number
-  }
+  }[]
 }
 
 export default function Home({ products }: HomeProps) {
-  const [slideRef] = useKeenSlider({
+  const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
@@ -26,7 +26,7 @@ export default function Home({ products }: HomeProps) {
   })
 
   return (
-    <HomeContainer ref={slideRef} className='keen-slider'>
+    <HomeContainer ref={sliderRef} className='keen-slider'>
       {products.map(product => {
         return (
           <Product key={product.id} className='keen-slider__slide'>
@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount / 100,
+      price: price.unit_amount ? price.unit_amount / 100 : 0,
     }
   })
 
