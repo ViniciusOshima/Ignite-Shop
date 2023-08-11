@@ -7,6 +7,9 @@ import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
 import { useRouter } from "next/router"
 
+import axios from "axios"
+import { useState } from "react"
+
 interface ProductProps {
   product: {
     id: string
@@ -14,10 +17,32 @@ interface ProductProps {
     imageUrl: string
     price: number
     description: string
+    defaultPriceId: string
   }
 }
 
 export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const response = await axios.post('/api/checkout', {
+        priceId: product.defaultPriceId,
+      })
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl
+
+    } catch (err) {
+      setIsCreatingCheckoutSession(false)
+
+      alert('falha ao redirecionar o checkout!')
+    }
+  }
+
   const { isFallback } = useRouter()
 
   if (isFallback) {
@@ -36,7 +61,7 @@ export default function Product({ product }: ProductProps) {
 
         <p>{product.description}</p>
 
-        <button>Comprar agora</button>
+        <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Comprar agora</button>
       </ProductDetails>
     </ProductContainer>
   )
@@ -69,6 +94,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
           currency: 'BRL',
         }).format(price.unit_amount / 100) : 0,
         description: product.description,
+        defaultPriceId: price.id,
       }
     },
     revalidate: 60 * 60 * 1
