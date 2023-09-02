@@ -42,6 +42,26 @@ export const Product = styled('div', {
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
 
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '4px',
+    },
+
+    button: {
+      height: '48px',
+      width: '48px',
+
+      borderRadius: '6px',
+      border: 'none',
+
+      backgroundColor: '$green500',
+
+      color: '$white',
+
+      cursor: 'pointer',
+    },
+
     strong: {
       fontSize: '$lg',
       color: '$gray100',
