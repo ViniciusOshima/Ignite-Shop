@@ -124,6 +124,10 @@ export const ProductItemInfo = styled('div', {
     border: 'none',
 
     cursor: 'pointer',
+
+    '&:hover': {
+      color: '$green300',
+    }
   }
 })
 
@@ -147,6 +151,10 @@ export const TotalInfoCart = styled('div', {
     fontFamily: 'Roboto, sans-serif',
 
     cursor: 'pointer',
+
+    '&:hover': {
+      backgroundColor: '$green300',
+    }
   }
 })
 

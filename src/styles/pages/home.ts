@@ -60,6 +60,10 @@ export const Product = styled('div', {
       color: '$white',
 
       cursor: 'pointer',
+
+      '&:hover': {
+        backgroundColor: '$green300',
+      }
     },
 
     strong: {

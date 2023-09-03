@@ -7,9 +7,11 @@ import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
 import { useRouter } from "next/router"
 
-import axios from "axios"
-import { useState } from "react"
 import Head from "next/head"
+
+import { useContext } from "react"
+import { CartContext } from "../_app"
+
 
 interface ProductProps {
   product: {
@@ -23,25 +25,15 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+  const { AddShirtToCart } = useContext(CartContext)
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true)
-
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
-      })
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl
-
-    } catch (err) {
-      setIsCreatingCheckoutSession(false)
-
-      alert('falha ao redirecionar o checkout!')
-    }
+  function handleAddShirtToCart() {
+    AddShirtToCart({
+      name: product.name,
+      imageUrl: product.imageUrl,
+      price: product.price,
+      priceId: product.defaultPriceId,
+    })
   }
 
   const { isFallback } = useRouter()
@@ -67,7 +59,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Comprar agora</button>
+          <button onClick={handleAddShirtToCart}>Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>
