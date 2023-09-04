@@ -19,7 +19,7 @@ interface CartContextType {
   AddShirtToCart: ({ }: CartProps) => void
 }
 
-interface CartProps {
+export interface CartProps {
   name: string
   imageUrl: string
   price: number
@@ -104,6 +104,8 @@ function App({ Component, pageProps }: AppProps) {
       alert('falha ao redirecionar o checkout!')
     }
   }
+
+  useEffect(() => { console.log(cart) }, [cart])
 
   return (
     <CartContext.Provider value={{ cart, AddShirtToCart }}>
