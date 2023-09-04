@@ -2,7 +2,7 @@ import { globalStyles } from "@/styles/global"
 import { AppProps } from "next/app"
 
 import logoImg from '../assets/logo.svg'
-import { Container, Header, Content, Title, CloseButtom, BgImage, ProductItem, ProductItemInfo, ItemsCart, TotalInfoCart, InfoCart } from "@/styles/pages/app"
+import { Container, Header, Content, Title, CloseButtom, BgImage, ProductItem, ProductItemInfo, ItemsCart, TotalInfoCart, InfoCart, DialogRoot } from "@/styles/pages/app"
 
 import Image from 'next/image'
 import { Handbag, X } from "phosphor-react"
@@ -105,8 +105,6 @@ function App({ Component, pageProps }: AppProps) {
     }
   }
 
-  useEffect(() => { console.log(cart) }, [cart])
-
   return (
     <CartContext.Provider value={{ cart, AddShirtToCart }}>
       <Container>
@@ -115,7 +113,7 @@ function App({ Component, pageProps }: AppProps) {
             <Image src={logoImg} alt="" />
           </Link>
 
-          <Dialog.Root>
+          <DialogRoot>
             <Dialog.Trigger asChild>
               <button><Handbag weight="bold" size={24} /></button>
             </Dialog.Trigger>
@@ -176,7 +174,7 @@ function App({ Component, pageProps }: AppProps) {
               </Content>
             </Dialog.Portal>
 
-          </Dialog.Root>
+          </DialogRoot>
 
 
         </Header>

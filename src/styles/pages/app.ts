@@ -2,7 +2,7 @@ import { styled } from '../index'
 
 import * as Dialog from '@radix-ui/react-dialog';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-import { keyframes } from '@stitches/react';
+
 
 export const Container = styled('div', {
   display: 'flex',
@@ -34,6 +34,9 @@ export const Header = styled('header', {
 
     cursor: 'pointer',
   }
+})
+
+export const DialogRoot = styled(Dialog.Root, {
 })
 
 export const Content = styled(Dialog.Content, {
