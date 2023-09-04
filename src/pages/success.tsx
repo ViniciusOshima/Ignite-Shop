@@ -21,7 +21,6 @@ interface SuccessProps {
 }
 
 export default function Success({ customerName, products }: SuccessProps) {
-
   return (
     <>
       <Head>
@@ -43,7 +42,7 @@ export default function Success({ customerName, products }: SuccessProps) {
 
 
         <p>
-          Uhuul <strong>{customerName}</strong>, {products.length > 1 ? <strong>suas {products.length} camisas já estão</strong> : <strong>sua {products[0].name} já esta</strong>} a caminho de sua casa.
+          Uhuul <strong>{customerName}</strong>, sua compra de {products.length === 1 ? <strong>{products[0].name}</strong> : <strong> {products.length} camisetas</strong>}  já esta a caminho de sua casa.
         </p>
 
         <Link href='/'>
