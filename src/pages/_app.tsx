@@ -11,7 +11,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import Link from "next/link"
 
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import axios from "axios"
 
 interface CartContextType {
@@ -24,6 +24,8 @@ interface CartProps {
   imageUrl: string
   price: number
   priceId: string
+  priceWithoutFormat: number
+  id: string
 }
 
 interface ProductsId {
@@ -42,18 +44,39 @@ function App({ Component, pageProps }: AppProps) {
 
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
+  const infoCart = cart.reduce(
+    (acc, item) => {
+      acc.totalPrice += item.priceWithoutFormat
+      acc.quantity = cart.length
+
+      return acc
+    }, {
+    quantity: 0,
+    totalPrice: 0
+  })
+
   function AddShirtToCart(shirt: CartProps) {
     setCart((prevCart) => [...prevCart, {
       name: shirt.name,
       imageUrl: shirt.imageUrl,
       price: shirt.price,
-      priceId: shirt.priceId
+      priceId: shirt.priceId,
+      priceWithoutFormat: shirt.priceWithoutFormat,
+      id: shirt.id
     }])
 
     setProductsId((prev) => [...prev, {
       price: shirt.priceId,
       quantity: 1
     }])
+  }
+
+  function handleRemoveItem(priceId: string) {
+    const newCart = cart.filter((itemCart) => itemCart.priceId !== priceId)
+    const newProductsId = productsId.filter((itemCart) => itemCart.price !== priceId)
+
+    setCart(newCart)
+    setProductsId(newProductsId)
   }
 
   async function handleBuyProduct() {
@@ -95,8 +118,8 @@ function App({ Component, pageProps }: AppProps) {
 
                 <ScrollArea.Root>
                   <ItemsCart>
-                    {cart ? cart.map((item) => {
-                      return <ProductItem key={item.priceId}>
+                    {cart.length > 0 ? cart.map((item) => {
+                      return <ProductItem key={item.id}>
                         <BgImage>
                           <Image src={item.imageUrl} alt="" width={94} height={94} />
                         </BgImage>
@@ -106,7 +129,7 @@ function App({ Component, pageProps }: AppProps) {
                           <p>{item.name}</p>
                           <strong>{item.price}</strong>
 
-                          <button>Remover</button>
+                          <button onClick={() => { handleRemoveItem(item.priceId) }}>Remover</button>
                         </ProductItemInfo>
                       </ProductItem>
                     }) : <h1>nada</h1>}
@@ -124,12 +147,16 @@ function App({ Component, pageProps }: AppProps) {
                   <InfoCart>
                     <div>
                       <p>Quantidade</p>
-                      <p>3 itens</p>
+                      <p>{infoCart.quantity == 1 ? infoCart.quantity + ' item' : infoCart.quantity + ' itens'}</p>
                     </div>
 
                     <div>
                       <strong>Valor total</strong>
-                      <strong>R$ 270,00</strong>
+                      <strong>{new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      }).format(infoCart.totalPrice / 100)
+                      }</strong>
                     </div>
                   </InfoCart>
 

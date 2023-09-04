@@ -154,6 +154,11 @@ export const TotalInfoCart = styled('div', {
 
     '&:hover': {
       backgroundColor: '$green300',
+    },
+
+    '&:disabled': {
+      cursor: 'not-allowed',
+      opacity: '50%',
     }
   }
 })

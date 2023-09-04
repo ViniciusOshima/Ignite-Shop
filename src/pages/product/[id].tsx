@@ -5,12 +5,15 @@ import Image from "next/image"
 
 import Stripe from "stripe"
 import { stripe } from "@/lib/stripe"
+
 import { useRouter } from "next/router"
 
 import Head from "next/head"
 
 import { useContext } from "react"
 import { CartContext } from "../_app"
+
+import { v4 } from 'uuid'
 
 
 interface ProductProps {
@@ -21,6 +24,7 @@ interface ProductProps {
     price: number
     description: string
     defaultPriceId: string
+    priceWithoutFormat: number
   }
 }
 
@@ -32,7 +36,9 @@ export default function Product({ product }: ProductProps) {
       name: product.name,
       imageUrl: product.imageUrl,
       price: product.price,
+      priceWithoutFormat: product.priceWithoutFormat,
       priceId: product.defaultPriceId,
+      id: v4()
     })
   }
 
@@ -96,6 +102,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
         }).format(price.unit_amount / 100) : 0,
         description: product.description,
         defaultPriceId: price.id,
+        priceWithoutFormat: price.unit_amount
       }
     },
     revalidate: 60 * 60 * 1
