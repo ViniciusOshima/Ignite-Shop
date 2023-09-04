@@ -31,6 +31,7 @@ interface CartProps {
 interface ProductsId {
   price: string
   quantity: number
+  id: string
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -67,13 +68,14 @@ function App({ Component, pageProps }: AppProps) {
 
     setProductsId((prev) => [...prev, {
       price: shirt.priceId,
-      quantity: 1
+      quantity: 1,
+      id: shirt.id
     }])
   }
 
-  function handleRemoveItem(priceId: string) {
-    const newCart = cart.filter((itemCart) => itemCart.priceId !== priceId)
-    const newProductsId = productsId.filter((itemCart) => itemCart.price !== priceId)
+  function handleRemoveItem(Id: string) {
+    const newCart = cart.filter((itemCart) => itemCart.id !== Id)
+    const newProductsId = productsId.filter((itemCart) => itemCart.id !== Id)
 
     setCart(newCart)
     setProductsId(newProductsId)
@@ -84,7 +86,12 @@ function App({ Component, pageProps }: AppProps) {
       setIsCreatingCheckoutSession(true)
 
       const response = await axios.post('/api/checkout', {
-        priceId: productsId,
+        priceId: productsId.map((product) => {
+          return {
+            price: product.price,
+            quantity: product.quantity
+          }
+        }),
       })
 
       const { checkoutUrl } = response.data;
@@ -129,10 +136,10 @@ function App({ Component, pageProps }: AppProps) {
                           <p>{item.name}</p>
                           <strong>{item.price}</strong>
 
-                          <button onClick={() => { handleRemoveItem(item.priceId) }}>Remover</button>
+                          <button onClick={() => { handleRemoveItem(item.id) }}>Remover</button>
                         </ProductItemInfo>
                       </ProductItem>
-                    }) : <h1>nada</h1>}
+                    }) : <p>nenhum item no carrinho</p>}
                   </ItemsCart>
 
                   <ScrollArea.Scrollbar orientation="vertical">
