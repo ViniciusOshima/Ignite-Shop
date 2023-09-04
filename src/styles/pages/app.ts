@@ -36,6 +36,29 @@ export const Header = styled('header', {
   }
 })
 
+export const ButtonCartContainer = styled('div', {
+  display: 'flex'
+})
+
+export const CartCount = styled('div', {
+  width: '1.5rem',
+  height: '1.5rem',
+
+  marginLeft: '-0.7rem',
+  marginTop: '-0.5rem',
+
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  borderRadius: 100,
+  backgroundColor: '$green500',
+
+  color: '$white',
+  fontFamily: 'Roboto, sans-serif',
+  fontWeight: 'bold',
+})
+
 export const DialogRoot = styled(Dialog.Root, {
 })
 
