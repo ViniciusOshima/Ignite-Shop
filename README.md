@@ -8,7 +8,7 @@
 
 Página web para compras de produtos originais da Rocketseat.
 
-- Esta aplicação foi realizada parcialmente em aula, com um desafio final tratando-se de implementar um carrinho que utiliza os dados da API do Stripe para buscar os itens existentes, e controlará, através da sua aplicação, o número de itens que o usuário deseja comprar.
+- Esta aplicação foi realizada parcialmente em aula, com um desafio final tratando-se de implementar um carrinho que utiliza os dados da API do Stripe para buscar os itens existentes, e controla, através da aplicação, o número de itens que o usuário deseja comprar.
 
 ![image](https://github.com/ViniciusOshima/Github-Blog/assets/105689421/2e6bb7ed-e1d6-4654-9322-7c54afca25b1)
 
