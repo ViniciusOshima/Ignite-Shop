@@ -17,7 +17,7 @@ interface ProductProps {
 
 interface SuccessProps {
   customerName: string;
-  products: ProductProps
+  products: ProductProps[]
 }
 
 export default function Success({ customerName, products }: SuccessProps) {
